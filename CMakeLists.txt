@@ -19,20 +19,6 @@ find_package(fmt)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-configure_file(${PROJECT_SOURCE_DIR}/include/config.h.in ${PROJECT_SOURCE_DIR}/include/tut/config.h)
-
-set(PROJECT_TARGET_NAME tutorial_bin)
-
-# ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ui_en_US.ts
-set(TS_FILES )
-
-set(PROJECT_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/tut/config.h)
-
-set(PROJECT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/qml.qrc
-  ${TS_FILES}
-  )
-
 # BOOST dependancy
 set(Boost_USE_STATIC_LIBS        OFF)  # only find static libs
 #set(Boost_USE_DEBUG_LIBS        ON)  # ignore debug libs and
@@ -46,8 +32,30 @@ if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
+configure_file(${PROJECT_SOURCE_DIR}/include/config.h.in ${PROJECT_SOURCE_DIR}/include/tut/config.h)
+
+set(PROJECT_TARGET_NAME tutorial_bin)
+
+# UI_UX library configuration
+set(UI_UX_TARGET ui_ux)
+
+# ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ui_en_US.ts
+set(TS_FILES )
+set(UI_UX_FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/qml.qrc
+  ${TS_FILES})
+
+set(PROJECT_HEADERS
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/tut/config.h)
+
+set(PROJECT_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+
+  )
+
 # Tututorial library
 set(TUT_TARGET_LIB tutorial)
+
 set(TUT_TARGET_HEADERS
   "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch1.hpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch2.hpp"
@@ -83,31 +91,18 @@ add_library(${TUT_TARGET_LIB} ${TUT_TARGET_HEADERS} ${TUT_TARGET_SOURCES})
 target_include_directories(${TUT_TARGET_LIB}
   PUBLIC "${PROJECT_BINARY_DIR}"
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
 target_link_libraries(${TUT_TARGET_LIB}
   PUBLIC Boost::log
-    fmt::fmt)
+  fmt::fmt)
 
 # Main project configuration
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(${PROJECT_TARGET_NAME} MANUAL_FINALIZATION ${PROJECT_HEADERS} ${PROJECT_SOURCES})
-
-  # Define target properties for Android with Qt 6 as:
-  #    set_property(TARGET ui APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-  #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-  # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-
   qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR}/src/ui ${TS_FILES})
 else()
-  if(ANDROID)
-    add_library(${PROJECT_TARGET_NAME} SHARED
-      ${PROJECT_SOURCES}
-      )
-    # Define properties for Android with Qt 5 after find_package() calls as:
-    #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-  else()
-    add_executable(${PROJECT_TARGET_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES})
 
-  endif()
+  add_executable(${PROJECT_TARGET_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES} ${UI_UX_FILES} )
 
   qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR}/src/ui ${TS_FILES})
 endif()
@@ -120,13 +115,14 @@ endif()
 target_include_directories(${PROJECT_TARGET_NAME}
   PUBLIC "${PROJECT_BINARY_DIR}"
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
+  "${PROJECT_SOURCE_DIR}/src/ui"
   PUBLIC ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_TARGET_NAME}
   PUBLIC ${Boost_LIBRARIES}
   PUBLIC ${GSTREAMER_LIBRARIES}
-  ${TUT_TARGET_LIB}
-   fmt::fmt
+  PUBLIC ${TUT_TARGET_LIB}
+  fmt::fmt
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Qml)
 
 target_compile_definitions(${PROJECT_TARGET_NAME}
@@ -135,6 +131,7 @@ target_compile_definitions(${PROJECT_TARGET_NAME}
 enable_testing()
 
 set(PROJECT_TEST_TARGET_NAME tests_bin)
+
 set(PROJECT_TEST_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_main.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_ch2.cpp"
