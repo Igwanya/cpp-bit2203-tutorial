@@ -146,7 +146,8 @@ target_include_directories(${PROJECT_TEST_TARGET_NAME}
   PRIVATE ${BOOST_INCLUDE_DIRS})
 
 # indicates the shared library variant
-target_compile_definitions(${PROJECT_TEST_TARGET_NAME} PRIVATE "BOOST_TEST_DYN_LINK=1")
+target_compile_definitions(${PROJECT_TEST_TARGET_NAME}
+  PRIVATE "BOOST_TEST_DYN_LINK=1" )
 
 target_link_libraries(${PROJECT_TEST_TARGET_NAME}
   ${Boost_FILESYSTEM_LIBRARY}
