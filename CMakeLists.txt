@@ -1,4 +1,7 @@
-cmake_minimum_required(VERSION 3.22.1)
+﻿cmake_minimum_required(VERSION 3.22.1)
+
+# add_compile_options(-Wall -Wextra -pedantic -Werror)
+set(PROJECT_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build/")
 
 project(tutorial
   VERSION 0.1
@@ -11,6 +14,10 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml LinguistTools REQUIRED)
@@ -85,7 +92,7 @@ target_include_directories(${TUT_TARGET_LIB}
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(${TUT_TARGET_LIB}
   PUBLIC Boost::log
-    fmt::fmt)
+  fmt::fmt)
 
 # Main project configuration
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -126,34 +133,59 @@ target_link_libraries(${PROJECT_TARGET_NAME}
   PUBLIC ${Boost_LIBRARIES}
   PUBLIC ${GSTREAMER_LIBRARIES}
   ${TUT_TARGET_LIB}
-   fmt::fmt
+  fmt::fmt
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Qml)
 
 target_compile_definitions(${PROJECT_TARGET_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-enable_testing()
 
-set(PROJECT_TEST_TARGET_NAME tests_bin)
-set(PROJECT_TEST_SOURCES
-  "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_main.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_ch2.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_ch3.cpp"
-  )
+option(BUILD_TESTING "Builds only the test executable." ON)
+option(CODE_COVERAGE "Collect coverage from test library" ON)
 
-add_executable(${PROJECT_TEST_TARGET_NAME} ${PROJECT_TEST_SOURCES})
+if(BUILD_TESTING)
+  include(CTest)
 
-target_include_directories(${PROJECT_TEST_TARGET_NAME}
-  PUBLIC "${PROJECT_BINARY_DIR}"
-  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
-  PRIVATE ${BOOST_INCLUDE_DIRS})
+  enable_testing()
 
-# indicates the shared library variant
-target_compile_definitions(${PROJECT_TEST_TARGET_NAME} PRIVATE "BOOST_TEST_DYN_LINK=1")
+  set(PROJECT_TEST_TARGET_NAME tests_bin)
 
-target_link_libraries(${PROJECT_TEST_TARGET_NAME}
-  ${Boost_FILESYSTEM_LIBRARY}
-  ${Boost_SYSTEM_LIBRARY}
-  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-  ${TUT_TARGET_LIB}
-  )
+  set(PROJECT_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_ch2.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_ch3.cpp"
+    )
+
+  add_executable(${PROJECT_TEST_TARGET_NAME} ${PROJECT_TEST_SOURCES})
+
+  target_include_directories(${PROJECT_TEST_TARGET_NAME}
+    PUBLIC "${PROJECT_BINARY_DIR}"
+    PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    PRIVATE ${BOOST_INCLUDE_DIRS})
+
+  # indicates the shared library variant
+  target_compile_definitions(${PROJECT_TEST_TARGET_NAME} PRIVATE "BOOST_TEST_DYN_LINK=1")
+
+  target_link_libraries(${PROJECT_TEST_TARGET_NAME}
+    ${Boost_FILESYSTEM_LIBRARY}
+    ${Boost_SYSTEM_LIBRARY}
+    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+    ${TUT_TARGET_LIB}  )
+
+  add_test(NAME ${PROJECT_TEST_TARGET_NAME} COMMAND ${PROJECT_TEST_TARGET_NAME})
+
+  if(CODE_COVERAGE)
+    include(CodeCoverage)
+
+    append_coverage_compiler_flags()
+    setup_target_for_coverage_gcovr_html(
+              NAME coverage
+              EXECUTABLE ctest -j 4 ${PROJECT_TEST_TARGET_NAME}
+              BASE_DIRECTORY "${PROJECT_SOURCE_DIR}/src"
+              # EXCLUDE "${PROJECT_SOURCE_DIR}/src/dir1/*" "/path/to/my/src/dir2/*"
+              DEPENDENCIES
+                         ${PROJECT_TEST_TARGET_NAME}
+              )
+
+  endif(CODE_COVERAGE)
+endif(BUILD_TESTING)
