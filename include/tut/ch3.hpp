@@ -2,6 +2,7 @@
 #define CH3_HPP
 
 #include <vector>
+#include <string>
 
 namespace tut {
   namespace ch3 {
@@ -173,6 +174,39 @@ namespace tut {
      *   The program prompts the user to enter a guess and reports whether the guess is correct or incorrect.
      */
     void exe_3_14();
+
+    /**
+     * @brief Game: lottery.
+     *
+     *  Revise Listing 3.8, Lottery.java, to generate a lottery of a three digit number.
+     *  The program prompts the user to enter a three-digit number and determines whether
+     *  the user wins according to the following rules
+     *
+     *  @param digits the 3 digit lottery number
+     *
+     *  @return award the string mathching the lottery number.
+     */
+    std::string exe_3_15(int digits);
+
+    /**
+     * @brief Random point.
+     *
+     * Write a program that displays a random coordinate in a rectangle.
+     * The rectangle is centered at (0, 0) with width 100 and height 200.
+     */
+    void exe_3_16();
+
+    /**
+     * @brief Game: scissor, rock, paper.
+     *
+     *  Write a program that plays the popular scissor-rock-paper game.
+     *   (A scissor can cut a paper, a rock can knock a scissor, and a paper canwrap a rock.)
+     *   The program randomly generates a number 0 , 1 , or 2 representing scissor,
+     *    rock, and paper. The program prompts the user to enter a number 0 , 1 , or 2
+     *    and displays a message indicating whether the user or the computer wins, loses, or draws.
+     *
+     */
+    void exe_3_17();
 
 
    }

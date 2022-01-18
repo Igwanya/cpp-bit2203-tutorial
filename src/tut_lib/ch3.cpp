@@ -422,8 +422,86 @@ namespace tut {
         } else {
           std::cout << "Incorrect guess, Tails\n";
         }
+    }
+
+    std::string exe_3_15(int digits) {
+      auto seed {std::chrono::steady_clock::now().time_since_epoch().count()};
+      auto mtgen {std::mt19937{static_cast<unsigned int >(seed)}};
+      auto ud {std::uniform_int_distribution<>(100, 999)};
+
+      std::string response1{"Exact match: you win $10,000"};
+      std::string response2{"Match all digits: you win $3,000"};
+      std::string response3{"Match one digit: you win $1,000"};
+      std::string response4{"Sorry, no match"};
+
+      int lottery { ud(mtgen) }; // genereate the lottery number
+      int lottery1{}, lottery2{}, lottery3{}, lrem{};
+      lottery3 = lottery % 10;
+      lrem = lottery / 10;
+      lottery2 = lrem % 10;
+      lottery3 = lrem / 10;
 
 
+      int guess1{}, guess2{}, guess3{}, rem{};
+      guess3 = digits % 10;
+      rem = digits / 10;
+      guess2 = rem % 10;
+      guess1 = rem / 10;
+
+      if (guess1 == lottery1 && guess2 == lottery2 && guess3 == lottery3) {
+          BOOST_LOG_TRIVIAL(debug) << "Lottery: "<< lottery << " guess: "<< response1;
+          return response1;
+        } else if(digits == lottery) {
+          BOOST_LOG_TRIVIAL(debug) << "Lottery: "<< lottery << " guess: "<< response2;
+          return response2;
+        } else if(guess1 == lottery1 || guess2 == lottery2 || guess3 == lottery3) {
+          BOOST_LOG_TRIVIAL(debug) << "Lottery: "<< lottery << " guess: "<< response3;
+          return response3;
+        } else {
+          BOOST_LOG_TRIVIAL(debug) << "Lottery: "<< lottery << " guess: "<< response4;
+          return response4;
+        }
+
+      return response4;
+    }
+
+    void exe_3_16() {
+      auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+      auto mtgen = std::mt19937{ static_cast<unsigned int >(seed)};
+      auto ud = std::uniform_int_distribution<>(0, 100);
+      auto ud1 = std::uniform_int_distribution<>(0, 200);
+      int x{ ud(mtgen) }, y{ ud1(mtgen) };
+      std::cout << "The random coordinate of the recatangle start: x1=" << x << " y1=" << y << std::endl;
+    }
+
+    void exe_3_17() {
+      auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+      auto mtgen = std::mt19937{static_cast<unsigned int >(seed)};
+      auto ud = std::uniform_int_distribution(1,2);
+      int guess = ud(mtgen);
+
+      std::cout << "scissor (0), rock (1), paper (2): ";
+      int ans{};
+      std::cin >> ans;
+
+      if (ans == 1 && guess == 0) {
+          std::cout << "The computer is scissor. You are rock. You won\n";
+        }
+      if (ans == 1 && guess == 1) {
+          std::cout << "The computer is rock. You are rock too. It is a draw\n";
+        }
+      if (ans == 0 && guess == 2){
+          std::cout << "The computer is paper. You are scissor. You won\n";
+        }
+      if(ans == 0 && guess == 0) {
+          std::cout << "The computer is scissor. You are scissor too. It is a draw.\n";
+        }
+      if (ans == 2 && guess == 1) {
+          std::cout << "The computer is rock. You are paper. You win\n.";
+        }
+      if (ans == 2 && guess == 2) {
+          std::cout << "The computer is paper. You are paper. It is a draw\n";
+        }
     }
 
   }

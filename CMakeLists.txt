@@ -1,7 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.22.1)
 
 # add_compile_options(-Wall -Wextra -pedantic -Werror)
-set(PROJECT_BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/build/")
 
 project(tutorial
   VERSION 0.1
@@ -18,6 +17,26 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+# Dependancies
+option(BUILD_DOC "Build documentation" ON)
+if (BUILD_DOC)
+  find_package(Doxygen
+    REQUIRED dot
+    OPTIONAL_COMPONENTS mscgen dia)
+
+  if (DOXYGEN_FOUND)
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("Doxygen build started")
+    add_custom_target( doc_doxygen ALL
+      COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      COMMENT "Generating API documentation with Doxygen"
+      VERBATIM )
+  endif(DOXYGEN_FOUND)
+endif(BUILD_DOC)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml LinguistTools REQUIRED)
@@ -64,33 +83,32 @@ set(TUT_TARGET_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch2.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch3.cpp")
 
-# Dependancies
-option(BUILD_DOC "Build documentation" ON)
-if (BUILD_DOC)
-  find_package(Doxygen
-    REQUIRED dot
-    OPTIONAL_COMPONENTS mscgen dia)
-
-  if (DOXYGEN_FOUND)
-    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
-    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-    message("Doxygen build started")
-    add_custom_target( doc_doxygen ALL
-      COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-      COMMENT "Generating API documentation with Doxygen"
-      VERBATIM )
-  endif(DOXYGEN_FOUND)
-endif(BUILD_DOC)
-
 # library configuration
 add_library(${TUT_TARGET_LIB} ${TUT_TARGET_HEADERS} ${TUT_TARGET_SOURCES})
 
 target_include_directories(${TUT_TARGET_LIB}
   PUBLIC "${PROJECT_BINARY_DIR}"
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
 target_link_libraries(${TUT_TARGET_LIB}
+  PUBLIC Boost::log
+  fmt::fmt)
+
+#Course work in bit2203 practice quiz/exercises
+
+set(BIT2203_TARGET bit2203)
+set(BIT2203_HEADERS
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/bit2203/bit2203.hpp")
+set(BIT2203_SOURCES
+   "${CMAKE_CURRENT_SOURCE_DIR}/src/bit2203_lib/bit2203.cpp")
+
+add_library(${BIT2203_TARGET} ${BIT2203_HEADERS} ${BIT2203_SOURCES})
+
+target_include_directories(${BIT2203_TARGET}
+  PUBLIC "${PROJECT_BINARY_DIR}"
+  PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+target_link_libraries(${BIT2203_TARGET}
   PUBLIC Boost::log
   fmt::fmt)
 
@@ -133,6 +151,7 @@ target_link_libraries(${PROJECT_TARGET_NAME}
   PUBLIC ${Boost_LIBRARIES}
   PUBLIC ${GSTREAMER_LIBRARIES}
   ${TUT_TARGET_LIB}
+  ${BIT2203_TARGET}
   fmt::fmt
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Qml)
 
@@ -170,7 +189,8 @@ if(BUILD_TESTING)
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-    ${TUT_TARGET_LIB}  )
+    ${TUT_TARGET_LIB}
+    ${BIT2203_TARGET})
 
   add_test(NAME ${PROJECT_TEST_TARGET_NAME} COMMAND ${PROJECT_TEST_TARGET_NAME})
 
