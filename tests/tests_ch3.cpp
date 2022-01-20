@@ -41,5 +41,9 @@ BOOST_AUTO_TEST_CASE(algebra_linear_equations_test) {
   BOOST_TEST(tut::ch3::exe_3_03(1.0,2.0,2.0, 4.0, 4.0, 5.0).at(1) < 0);
 
 }
+BOOST_AUTO_TEST_CASE(compute_perimeter_of_triangle_test)
+{
+  BOOST_CHECK_EQUAL(tut::ch3::exe_3_18(1,2, 3,-4, -4,5), 23.557);
+}
 
 BOOST_AUTO_TEST_SUITE_END()

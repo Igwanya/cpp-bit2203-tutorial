@@ -209,7 +209,46 @@ namespace tut {
     void exe_3_17();
 
 
-   }
+    /**
+     * @brief Compute the perimeter of a triangle
+     *
+     * Write a program that reads three edges for
+     * a triangle and computes the perimeter if the input is valid.
+     * Otherwise, display that the input is invalid.
+     *  The input is valid if the sum of every pair of two edges is
+     *  greater than the remaining edge.
+     *
+     *  @note
+     *
+     *  The distance between \f$(x_1,y_1)\f$ and \f$(x_2,y_2)\f$ is
+     *            \f$\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}\f$.
+     *
+     *  @param x1     the triangle co-ordinates
+     *  @param y1  co-ordinate
+     *  @param x2  co-ordinate
+     *  @param y2  co-ordinate
+     *  @param x3  co-ordinate
+     *  @param y3  co-ordinate
+     *
+     *  @return the perimeter
+     */
+    double exe_3_18(int x1, int y1, int x2, int y2, int x3, int y3);
+
+    /**
+     * @brief SCience : wind chill temparature
+     *
+     *  Programming Exercise 2.17 gives a formula to compute the wind-chill temperature.
+     *  The formula is valid for temperatures in the range between −58ºF and 41ºF
+     *   and wind speed greater than or equal to 2 .
+     *   Write a program that prompts the user to enter a temperature and a wind speed.
+     *   The program displays the wind-chill temperature if the input is valid; otherwise,
+     *   it displays a message indicating whether the temperature and/or wind speed is invalid/
+     */
+    void exe_3_20();
+
+
+
   }
+}
 
 #endif // CH3_HPP

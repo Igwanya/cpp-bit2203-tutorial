@@ -504,5 +504,57 @@ namespace tut {
         }
     }
 
+    double exe_3_18(int x1, int y1, int x2, int y2, int x3, int y3)
+    {
+      if (x1 + y1 > x3 && x3 + y3 > x2 + y2 ||
+          (x1 + y1 > x2 + y2 && x3 + y3 > x2 + y2) ||
+          (x3 + y3 > x1 + y1 && x2 + y2 > x1 + y1)) {
+          std::cout << "The input is valid \n";
+        } else {
+          std::cout << "The inputs are invalid!\n";
+          std::exit(0);
+        }
+      double perimeter{0.0};
+      double l1 = sqrt(pow((x2-x1), 2) + pow(y2-y1, 2));
+      double l2 = sqrt(pow(x3 - x2, 2) + pow(y3 -y2, 2));
+      double l3 = sqrt(pow(x3 - x1, 2) + pow(y3 -y1, 2));
+      std::cout << " The perimeter is: " << l1 + l2 + l3;
+      perimeter = l1 + l2 + l3;
+      return std::round(perimeter * 1000) / 1000.0;
+    }
+
+    void exe_3_20()
+    {
+      // Prompt the user to enter a temperature and a wind speed
+      std::cout << "Enter the temperature in Fahrenheit "
+                   "between -58F and 41F: ";
+      double temperature{0.0};
+      std::cin >> temperature;
+      std::cout << "Enter the wind speed (>= 2) in miles per hour: ";
+      double speed{0.0};
+      std::cin >> speed;
+
+      if (temperature <= -58 || temperature >= 41 || speed < 2)
+        {
+          std::cout << "The ";
+          if (temperature <= -58 || temperature >= 41)
+            std::cout << "temperature ";
+          if ((temperature <= -58 || temperature >= 41) && speed < 2)
+            std::cout << "and ";
+          if (speed < 2)
+            std::cout << "wind speed ";
+          std::cout << "is invalid";
+          std::exit(1);
+        }
+
+      // Compute the wind chill index
+      double windChill = 35.74 + 0.6215 * temperature -
+          35.75 * pow(speed, 0.16) +
+          0.4275 * temperature * pow(speed, 0.16);
+
+      // Display result
+      std::cout << "The wind chill index is " << windChill;
+    }
+
   }
 }
