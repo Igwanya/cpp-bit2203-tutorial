@@ -1,12 +1,16 @@
-#define BOOST_TEST_MODULE TUTORIAL_MODULE
-#define BOOST_TEST_NO_MAIN
+#ifndef BOOST_TEST_DYN_LINK
+#define BOOST_TEST_DYN_LINK
+#endif
 
+#define BOOST_TEST_MAIN
+
+#define BOOST_TEST_ALTERNATIVE_INIT_API
 #include <boost/test/unit_test.hpp>
-#include <iostream>
 
-// entry point:
-int main(int argc, char* argv[], char* envp[])
-{
+BOOST_AUTO_TEST_SUITE(test1)
 
-  return boost::unit_test::unit_test_main( &init_unit_test, argc, argv );
-}
+    BOOST_AUTO_TEST_CASE(test1__test) {
+        BOOST_CHECK_EQUAL(1, 1);
+    }
+
+BOOST_AUTO_TEST_SUITE_END()

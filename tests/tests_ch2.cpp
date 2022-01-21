@@ -1,6 +1,13 @@
-#include "tut/ch2.hpp"
+#ifndef BOOST_TEST_DYN_LINK
+#define BOOST_TEST_DYN_LINK
+#endif
 
+#define BOOST_TEST_MAIN
+
+#define BOOST_TEST_ALTERNATIVE_INIT_API
 #include <boost/test/unit_test.hpp>
+
+#include "tut/ch2.hpp"
 
 BOOST_AUTO_TEST_SUITE(chapter_2_test_suite)
 
