@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QFontDatabase>
 
 #include <QLocale>
 #include <QTranslator>
@@ -49,6 +50,12 @@ int main(int argc, char **argv)
           app.installTranslator(&translator);
           break;
         }
+    }
+
+  QFontDatabase fontdb;
+  int err = fontdb.addApplicationFont("qrc:/icons/fontello.ttf");
+  if (err == -1) {
+      BOOST_LOG_TRIVIAL(warning) <<"Failed to load fontello.ttf\n";
     }
 
   QQmlApplicationEngine engine;

@@ -118,6 +118,7 @@ set(PROJECT_HEADERS
 
 set(PROJECT_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/qml.qrc
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/res.qrc
   ${TS_FILES}
   )
 

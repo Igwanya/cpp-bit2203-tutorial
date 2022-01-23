@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file>resources/fonts/OpenSans/OpenSans-Bold.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-BoldItalic.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-ExtraBold.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-ExtraBoldItalic.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-Italic.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-Light.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-LightItalic.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-Medium.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-MediumItalic.ttf</file>
+        <file alias="OpenSans-Regular.ttf">resources/fonts/OpenSans/OpenSans-Regular.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-SemiBold.ttf</file>
+        <file>resources/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file alias="fontello.ttf">resources/fonts/fontello/font/fontello.ttf</file>
+    </qresource>
+</RCC>
