@@ -52,12 +52,6 @@ int main(int argc, char **argv)
         }
     }
 
-  QFontDatabase fontdb;
-  int err = fontdb.addApplicationFont("qrc:/icons/fontello.ttf");
-  if (err == -1) {
-      BOOST_LOG_TRIVIAL(warning) <<"Failed to load fontello.ttf\n";
-    }
-
   QQmlApplicationEngine engine;
   const QUrl url(QStringLiteral("qrc:/main.qml"));
   QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

@@ -14,22 +14,61 @@ ApplicationWindow {
     }
 
     FontLoader {
-        id: fontello
-        source: "qrc:/icons/fontello.ttf"
+        id: fontawesome
+        source: "qrc:/icons/fa-solid-900.ttf"
     }
 
-    Rectangle {
-        width: 200
-        height: 100
-        color: "red"
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("File")
+            font.family: opensans.name
+            font.pixelSize: 24
+            MenuItem {
+                text: qsTr("&Open")
+                font.family: opensans.name
+                font.pixelSize: 16
+                onTriggered: console.log("Open action triggered")
+            }
 
-        Text {
-            id: txt_rect
-            //            text: qsTr("\0xe80f")
-            text: "\0xe80f"
-            font.family: "fontello"
-            //            font.family: fontello.name
-            anchors.centerIn: parent
+            MenuItem {
+                text: qsTr("&Settings")
+                font.family: opensans.name
+                font.pixelSize: 16
+                onTriggered: console.log("Settings action triggered")
+            }
+
+            MenuSeparator {}
+            MenuItem {
+                text: qsTr("Exit")
+                onTriggered: Qt.quit()
+                font.family: opensans.name
+                font.pixelSize: 16
+            }
+        }
+        Menu {
+            id: user_profile_menu
+            title: "\uf2bd"
+            font.family: fontawesome.name
+            font.pixelSize: 24
+            MenuItem {
+                text: qsTr("\uf4fe Profile")
+                font.family: opensans.name
+                font.pixelSize: 16
+                onTriggered: console.log("Profile action triggered")
+            }
+            MenuItem {
+                text: qsTr("\uf2f6 Log in")
+                font.family: opensans.name
+                font.pixelSize: 16
+                onTriggered: console.log("Login action triggered")
+            }
+
+            MenuItem {
+                text: qsTr("\uf2f5 Log out")
+                font.family: opensans.name
+                font.pixelSize: 16
+                onTriggered: console.log("Logout action triggered")
+            }
         }
     }
 }
