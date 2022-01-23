@@ -36,15 +36,6 @@ configure_file(${PROJECT_SOURCE_DIR}/include/config.h.in ${PROJECT_SOURCE_DIR}/i
 
 set(PROJECT_TARGET_NAME tutorial_bin)
 
-# UI_UX library configuration
-set(UI_UX_TARGET ui_ux)
-
-# ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ui_en_US.ts
-set(TS_FILES )
-set(UI_UX_FILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/qml.qrc
-  ${TS_FILES})
-
 set(PROJECT_HEADERS
   ${CMAKE_CURRENT_SOURCE_DIR}/include/tut/config.h)
 
@@ -96,13 +87,33 @@ target_link_libraries(${TUT_TARGET_LIB}
   PUBLIC Boost::log
   fmt::fmt)
 
+# UI library configuration
+# UI_UX library configuration
+
+# ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ui_en_US.ts
+set(TS_FILES )
+
+set(UI_TARGET_NAME "ui_${CMAKE_DEBUG_POSTFIX}")
+
+set(UI_HEADERS )
+
+set(UI_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/qml.qrc
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/main_ui.cpp
+  ${TS_FILES})
+
+add_library(${UI_TARGET_NAME} ${UI_SOURCES} ${UI_HEADERS})
+
+target_include_directories(${UI_TARGET_NAME} PRIVATE
+  )
+
 # Main project configuration
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(${PROJECT_TARGET_NAME} MANUAL_FINALIZATION ${PROJECT_HEADERS} ${PROJECT_SOURCES})
   qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR}/src/ui ${TS_FILES})
 else()
 
-  add_executable(${PROJECT_TARGET_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES} ${UI_UX_FILES} )
+  add_executable(${PROJECT_TARGET_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES})
 
   qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR}/src/ui ${TS_FILES})
 endif()
