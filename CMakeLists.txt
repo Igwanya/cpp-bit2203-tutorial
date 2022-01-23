@@ -18,6 +18,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
+<<<<<<< HEAD
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_DEBUG_POSTFIX "-${CMAKE_BUILD_TYPE}_${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
@@ -32,6 +33,14 @@ set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}
   "/opt/Qt/5.15.2/gcc_64")
 
 set(QT_DIR "" CACHE STRING "${QT_DIR}" " ")
+=======
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Qml LinguistTools REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Qml LinguistTools REQUIRED)
+
+find_package(fmt)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+>>>>>>> ui_ux
 
 # BOOST dependancy
 set(Boost_USE_STATIC_LIBS        OFF)  # only find static libs
@@ -45,7 +54,34 @@ if(Boost_FOUND)
   add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
   include_directories(${Boost_INCLUDE_DIRS})
 endif()
+<<<<<<< HEAD
 message(STATUS "[ = ] ${BOOST_ROOT}")
+=======
+
+configure_file(${PROJECT_SOURCE_DIR}/include/config.h.in ${PROJECT_SOURCE_DIR}/include/tut/config.h)
+
+set(PROJECT_TARGET_NAME tutorial_bin)
+
+set(PROJECT_HEADERS
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/tut/config.h)
+
+set(PROJECT_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+
+  )
+
+# Tututorial library
+set(TUT_TARGET_LIB tutorial)
+
+set(TUT_TARGET_HEADERS
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch1.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch2.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch3.hpp")
+set(TUT_TARGET_SOURCES
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch1.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch2.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch3.cpp")
+>>>>>>> ui_ux
 
 # Dependancies
 option(BUILD_DOC "Build documentation" ON)
@@ -113,6 +149,7 @@ target_link_libraries(${TUT_TARGET_LIB}
   PUBLIC Boost::log
   fmt::fmt)
 
+<<<<<<< HEAD
 #Course work in bit2203 practice quiz/exercises
 
 set(BIT2203_TARGET bit2203)
@@ -130,6 +167,27 @@ target_include_directories(${BIT2203_TARGET}
 target_link_libraries(${BIT2203_TARGET}
   PUBLIC Boost::log
   fmt::fmt)
+=======
+# UI library configuration
+# UI_UX library configuration
+
+# ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ui_en_US.ts
+set(TS_FILES )
+
+set(UI_TARGET_NAME "ui_${CMAKE_DEBUG_POSTFIX}")
+
+set(UI_HEADERS )
+
+set(UI_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/qml.qrc
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/ui/main_ui.cpp
+  ${TS_FILES})
+
+add_library(${UI_TARGET_NAME} ${UI_SOURCES} ${UI_HEADERS})
+
+target_include_directories(${UI_TARGET_NAME} PRIVATE
+  )
+>>>>>>> ui_ux
 
 # Main project configuration
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -138,7 +196,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 else()
 
   add_executable(${PROJECT_TARGET_NAME} ${PROJECT_HEADERS} ${PROJECT_SOURCES})
+<<<<<<< HEAD
   set_target_properties(${PROJECT_TARGET_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+=======
+>>>>>>> ui_ux
 
   qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR}/src/ui ${TS_FILES})
 endif()
@@ -151,13 +212,18 @@ endif()
 target_include_directories(${PROJECT_TARGET_NAME}
   PUBLIC "${PROJECT_BINARY_DIR}"
   PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
+  "${PROJECT_SOURCE_DIR}/src/ui"
   PUBLIC ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_TARGET_NAME}
   PUBLIC ${Boost_LIBRARIES}
   PUBLIC ${GSTREAMER_LIBRARIES}
+<<<<<<< HEAD
   ${TUT_TARGET_LIB}
   ${BIT2203_TARGET}
+=======
+  PUBLIC ${TUT_TARGET_LIB}
+>>>>>>> ui_ux
   fmt::fmt
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Qml)
 
@@ -165,14 +231,25 @@ target_compile_definitions(${PROJECT_TARGET_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 
+<<<<<<< HEAD
 option(BUILD_TESTING "Builds only the test executable." ON)
 option(CODE_COVERAGE "Collect coverage from test library" ON)
+=======
+set(PROJECT_TEST_TARGET_NAME tests_bin)
+
+set(PROJECT_TEST_SOURCES
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_main.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_ch2.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests_ch3.cpp"
+  )
+>>>>>>> ui_ux
 
 if(BUILD_TESTING)
   include(CTest)
 
   enable_testing()
 
+<<<<<<< HEAD
   set(PROJECT_TEST_TARGET_NAME "Boost_Tests_run_v${PROJECT_VERSION}")
 
   set(PROJECT_TEST_SOURCES
@@ -281,6 +358,11 @@ if(BUILD_TESTING)
       ch4_test
       ch5_test
       )
+=======
+# indicates the shared library variant
+target_compile_definitions(${PROJECT_TEST_TARGET_NAME}
+  PRIVATE "BOOST_TEST_DYN_LINK=1" )
+>>>>>>> ui_ux
 
   endif(CODE_COVERAGE)
 endif(BUILD_TESTING)
