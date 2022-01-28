@@ -556,5 +556,157 @@ namespace tut {
       std::cout << "The wind chill index is " << windChill;
     }
 
+    int exe_3_21(int k, int m, int q)
+    {
+      int h{0};
+      int j = (k / 100 );
+      k = k % 100;
+
+      if (m <= 0 || m > 12) {
+          std::cerr << "Month is out of range [ 1 - 12]\n";
+          std::exit(EXIT_FAILURE);
+        }
+      if(q <=0 || q > 31) {
+          std::cerr << "Day of the month is out of range[ 1 - 31]\n";
+          std::exit(EXIT_FAILURE);
+        }
+
+      if (m == 1 || m == 2)
+        {
+          m = (m == 1) ? 13 : 14;
+          k--;
+        }
+
+      h = ( q + ( (26 * (m + 1)) / 10 ) + k +  (k / 4) + (j / 4) + 5 * j ) % 7;
+      return h;
+    }
+
+    bool exe_3_22(double x, double y)
+    {
+      double d{ sqrt(pow(x - 0.0, 2) + pow(y - 0.0, 2) ) };
+      if ( d <= 10.0)
+        return true; /// the point is in the circle
+      return false;
+    }
+
+    bool exe_3_23(double x, double y)
+    {
+      if (sqrt(pow(x, 2) + pow(y, 2)) <= (10 / 5) || sqrt(pow(y, 2)) <=(5.0 / 2) )
+        return true;
+      return false;
+    }
+
+    void exe_3_24()
+    {
+      long seed = std::chrono::system_clock::now().time_since_epoch().count();
+      auto mtgen = std::mt19937{ static_cast<unsigned int>(seed) };
+      auto ud = std::uniform_int_distribution(1, 13);
+      int rank = ud(mtgen);
+      auto ud_1_4 = std::uniform_int_distribution(1, 4);
+      int suit = ud_1_4(mtgen);
+
+      std::cout << "The card picked from 52 card deck ";
+      switch (rank) {
+        case 1:
+          std::cout << "Ace";
+          break;
+        case 2:
+          std::cout << rank;
+          break;
+        case 3:
+          std::cout << rank;
+          break;
+        case 4:
+          std::cout << rank;
+          break;
+        case 5:
+          std::cout << rank;
+          break;
+        case 6:
+          std::cout << rank;
+          break;
+        case 7:
+          std::cout << rank;
+          break;
+        case 8:
+          std::cout << rank;
+          break;
+        case 9:
+          std::cout << rank;
+          break;
+        case 10:
+          std::cout << rank;
+          break;
+        case 11:
+          std::cout << "Jack";
+          break;
+        case 12:
+          std::cout << "Queen";
+          break;
+        case 13:
+          std::cout << "King";
+          break;
+
+        }
+
+      std::cout << " of ";
+      switch(suit) {
+        case 0:
+          std::cout << "clubs\n";
+          break;
+        case 1:
+          std::cout << "diamonds\n";
+          break;
+        case 2:
+          std::cout << "hearts\n";
+          break;
+        case 3:
+          std::cout << "spades\n";
+          break;
+
+        }
+    }
+
+    void exe_3_25(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
+    {
+      // Calculate the intersecting point
+      // Get a, b, c, d, e, f
+      double a = y1 - y2;
+      double b = -1 * (x1 - x2);
+      double c = y3 - y4;
+      double d = -1 * (x3 - x4);
+      double e = (y1 - y2) * x1 - (x1 - x2) * y1;
+      double f = (y3 - y4) * x3 - (x3 - x4) * y3;
+
+      // Display results
+      if (a * d - b * c == 0)
+        {
+          std::cout << "The two lines are parallel.\n";
+        }
+      else
+        {
+          double x = (e * d - b * f) / (a * d - b * c);
+          double y = (a * f - e * c) / (a * d - b * c);
+          std::cout << "The intersecting point is at (" << x << ", " << y << ") \n";
+        }
+    }
+
+    void exe_3_26()
+    {
+      std::cout << "Enter an interger: ";
+      int number{};
+      std::cin >> number;
+      // Determine whether it is divisible by 5 and 6
+      // Display results
+      std::cout << "Is 10 divisible by 5 and 6? " <<
+                   ((number % 5 == 0) && (number % 6 == 0)) << std::endl;
+      std::cout << "Is 10 divisible by 5 or 6? " <<
+                   ((number % 5 == 0) || (number % 6 == 0)) << std::endl;
+      std::cout << "Is 10 divisible by 5 of 6, but not both? " <<
+                   ((number % 5 == 0) ^ (number % 6 == 0)) << std::endl;
+    }
+
+
+
   }
 }

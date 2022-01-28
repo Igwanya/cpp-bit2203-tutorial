@@ -52,4 +52,33 @@ BOOST_AUTO_TEST_CASE(compute_perimeter_of_triangle_test)
   BOOST_CHECK_EQUAL(tut::ch3::exe_3_18(1,2, 3,-4, -4,5), 23.557);
 }
 
+BOOST_AUTO_TEST_CASE(science_day_of_the_week_test)
+{
+  enum DAY_OF_THE_WEEK {
+    SATURDAY  = 0,
+    SUNDAY    = 1,
+    MONDAY    = 2,
+    TUESDAY   = 3,
+    WEDNESDAY = 4,
+    THURSDAY  = 5,
+    FRIDAY    = 6
+  };
+
+  BOOST_CHECK_EQUAL(tut::ch3::exe_3_21(2015, 1, 25), DAY_OF_THE_WEEK::SUNDAY);
+  BOOST_CHECK_EQUAL(tut::ch3::exe_3_21(2012, 5, 12), DAY_OF_THE_WEEK::SATURDAY);
+}
+
+BOOST_AUTO_TEST_CASE(geometry_point_in_a_circle_test)
+{
+  BOOST_CHECK_EQUAL(tut::ch3::exe_3_22(4.0, 9.0), true);
+  BOOST_CHECK_EQUAL(tut::ch3::exe_3_22(9.0, 9.0), false);
+}
+
+BOOST_AUTO_TEST_CASE(geometry_point_in_a_rectangle_test)
+{
+  BOOST_CHECK_EQUAL(tut::ch3::exe_3_23(2.0, 2.0), true);
+  BOOST_CHECK_EQUAL(tut::ch3::exe_3_22(6.0, 4.0), false);
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()

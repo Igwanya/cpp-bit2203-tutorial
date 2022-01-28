@@ -246,6 +246,111 @@ namespace tut {
      */
     void exe_3_20();
 
+    /**
+     * @brief Science: day of the week.
+     *
+     *  Zeller’s congruence is an algorithm developed by Christian Zeller to calculate the day of the week.
+     *
+     *  @note:
+     *      the division in the formula performs an integer division
+     *      j is the century i.e (year /100 )
+     *
+     *      \f$ h = ( q + \frac{26(m + 1)}{10} + k + \frac{k}{4} + \frac{j}{4} + 5j ) % 7\f$
+     *
+     *  @param k is the year of the century (i.e., year % 100).
+     *
+     *  @param m is the month (3: March, 4: April, …, 12: December).
+     *            January and February are counted as months 13 and 14 of the previous year.
+     *
+     *  @param q is the day of the month.
+     *
+     *  @returns h is the day of the week
+     *            (0: Saturday, 1: Sunday, 2: Monday, 3: Tuesday, 4: Wednesday, 5: Thursday, 6: Friday).
+     *
+     */
+    int exe_3_21(int k, int m, int q);
+
+    /**
+     * @brief Geometry: point in a circle
+     *
+     * Write a program that inputs a point ( x , y ) and checks whether the point
+     * is within the circle centered at ( 0 , 0 ) with radius 10.
+     * A point is in the circle if its distance to ( 0 , 0 ) is less than or equal to 10 .
+     * formulae:
+     *          d = \f$\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)}\f$
+     *
+     * @note
+     *      For example, ( 4 , 5 ) is inside the circle and ( 9 , 9 ) is outside the circle
+     *
+     *  @param x The x-axis of the circle.
+     *  @param y The y- axis of the circle.
+     *
+     *  @returns true/false if the point is i the circle.
+     */
+    bool exe_3_22(double x, double y);
+
+    /**
+     * @brief Geometry: point in a rectangle?.
+     *
+     *  Write a program that inputs a point (x, y)
+     *  and checks whether the point is within the
+     *  rectangle centered at ( 0 , 0 ) with width 10 and height 5
+     *
+     *  @note
+     *    A point is in the rectangle if its horizontal distance to
+     *     ( 0 , 0 ) is less than or equal to 10 / 2 and its
+     *     vertical distance to ( 0 , 0 ) is less than or equal to 5.0 / 2
+     *
+     *  @param x
+     *  @param y
+     *
+     *  @returns true/false if the point is within the rectangle.
+     */
+    bool exe_3_23(double x, double y);
+
+    /**
+     * @brief Geometry: intersecting point.
+     *
+     *  Two points on line 1 are given as ( x1 , y1 ) and ( x2 ,y2 )
+     *  and on line 2 as ( x3 , y3 ) and ( x4 , y4 ). T
+     *  his linear equation can be solved using Cramer’s rule
+     *
+     *  @note The intersecting point of the two lines can be found
+     *  by solving the following linear equation:
+     *    \f$ x(y_1 - y_2) - y(x_1 - x_2) = x_1(y_1 - y_2) - y_1(x_1 - x_2) \f$
+     *    \f$ x(y_3 - y_4) - y(x_3 - x_4) = x_3(y_3 - y_4) - y_3(x_3 - x_4) \f$
+     *
+     *  @param x1 The first point of the first line.
+     *  @param y1
+     *  @param x2 The second point of the first line
+     *  @param y2
+     *  @param x3 The first point of the second line.
+     *  @param y3
+     *  @param x4 The second point of the second line.
+     *  @param y4
+     *
+     *  Displays the point of intersection, parallel otherwise
+     */
+    void exe_3_25(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
+
+    /**
+     *  @brief Game: pick a card.
+     *
+     *  Write a program that simulates picking a card from a deck of 52 cards.
+     *   Your program should display the rank
+     *   ( Ace , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 , Jack , Queen , King )
+     *    and suit ( Clubs , Diamonds , Hearts , Spades ) of the card.
+     */
+    void exe_3_24();
+
+    /**
+     * @brief Use the && , || and ^ operators.
+     *
+     *  Write a program that prompts the user to enter an integer and determines
+     *  whether it is divisible by 5 and 6, whether it is divisible by 5 or 6,
+     *   and whether it is divisible by 5 or 6, but not both.
+     */
+    void exe_3_26();
 
 
   }
