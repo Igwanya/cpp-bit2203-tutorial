@@ -1,6 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
+import QtQuick.Layouts 1.12
 
 ApplicationWindow {
     visible: true
@@ -20,7 +21,6 @@ ApplicationWindow {
     }
 
     menuBar: MenuBar {
-        spacing: 10
 
         Menu {
             title: qsTr("File")
@@ -75,6 +75,22 @@ ApplicationWindow {
                 onTriggered: console.log("Logout action triggered")
                 visible: false
             }
+        }
+    }
+
+    StackLayout {
+        id: layout
+        anchors.fill: parent
+        currentIndex: 1
+        Rectangle {
+            color: 'teal'
+            implicitWidth: 200
+            implicitHeight: 200
+        }
+        Rectangle {
+            color: 'plum'
+            implicitWidth: 300
+            implicitHeight: 200
         }
     }
 }
