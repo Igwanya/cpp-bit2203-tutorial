@@ -23,4 +23,7 @@
         <file>resources/fonts/fontawesome/webfonts/fa-v4compatibility.ttf</file>
         <file>resources/fonts/fontawesome/webfonts/fa-v4compatibility.woff2</file>
     </qresource>
+    <qresource prefix="/">
+        <file>qt.conf</file>
+    </qresource>
 </RCC>

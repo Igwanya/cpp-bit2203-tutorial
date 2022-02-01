@@ -1,10 +1,12 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
+import QtQuick.Layouts 1.12
 
 ApplicationWindow {
     visible: true
-    width: 600
-    height: 400
+    width: 1024
+    height: 800
     font.family: opensans.name
     title: qsTr("Application")
 
@@ -19,6 +21,7 @@ ApplicationWindow {
     }
 
     menuBar: MenuBar {
+
         Menu {
             title: qsTr("File")
             font.family: opensans.name
@@ -56,6 +59,8 @@ ApplicationWindow {
                 font.pixelSize: 16
                 onTriggered: console.log("Profile action triggered")
             }
+
+            MenuSeparator {}
             MenuItem {
                 text: qsTr("\uf2f6 Log in")
                 font.family: opensans.name
@@ -68,7 +73,24 @@ ApplicationWindow {
                 font.family: opensans.name
                 font.pixelSize: 16
                 onTriggered: console.log("Logout action triggered")
+                visible: false
             }
+        }
+    }
+
+    StackLayout {
+        id: layout
+        anchors.fill: parent
+        currentIndex: 1
+        Rectangle {
+            color: 'teal'
+            implicitWidth: 200
+            implicitHeight: 200
+        }
+        Rectangle {
+            color: 'plum'
+            implicitWidth: 300
+            implicitHeight: 200
         }
     }
 }
