@@ -706,6 +706,23 @@ namespace tut {
                    ((number % 5 == 0) ^ (number % 6 == 0)) << std::endl;
     }
 
+    void exe_3_27()
+    {
+      std::cout << "Enter a point's x- and y- coordinates: ";
+      double x{}, y{};
+      std::cin >> x >> y;
+      // Determine whether the point is inside the triangle
+      // getting the point of ina line that starts at point
+
+      // Get the intersecting point with the hypotenuse side of the triangle
+      // of a line that starts and points (0, 0) and touches the user points
+      double intersectx = (-x * (200 * 100)) / (-y * 200 - x * 100);
+      double intersecty = (-y * (200 * 100)) / (-y * 200 - x * 100);
+
+      // Display results
+      std::cout << "The point " << ((x > intersectx || y > intersecty)
+                                    ? "is not " : "is " ) << " in the triangle. " << std::endl;
+    }
 
 
   }
