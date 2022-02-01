@@ -2,6 +2,9 @@
 
 set (CMAKE_GENERATOR "Unix Makefiles" CACHE INTERNAL "" FORCE)
 
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -pedantic -Werror")
+#set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall")
 # add_compile_options(-Wall -Wextra -pedantic -Werror)
 
 project(tutorial
@@ -18,7 +21,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
-set(CMAKE_BUILD_TYPE Debug)
+
 set(CMAKE_DEBUG_POSTFIX "-${CMAKE_BUILD_TYPE}_${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -129,11 +132,13 @@ set(TUT_TARGET_LIB tutorial)
 set(TUT_TARGET_HEADERS
   "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch1.hpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch2.hpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch3.hpp")
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch3.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch4.hpp")
 set(TUT_TARGET_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch1.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch2.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch3.cpp")
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch3.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch4.cpp")
 
 # library configuration
 add_library(${TUT_TARGET_LIB} ${TUT_TARGET_HEADERS} ${TUT_TARGET_SOURCES})
@@ -305,7 +310,9 @@ if(BUILD_TESTING)
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-    ${TUT_TARGET_LIB})
+    ${TUT_TARGET_LIB}
+    ${BIT2203_TARGET})
+
   add_test(NAME ch4_test COMMAND ch4_test)
 
   add_executable(ch5_test
