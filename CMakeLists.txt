@@ -73,11 +73,13 @@ set(TUT_TARGET_LIB tutorial)
 set(TUT_TARGET_HEADERS
   "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch1.hpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch2.hpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch3.hpp")
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch3.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/include/tut/ch4.hpp")
 set(TUT_TARGET_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch1.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch2.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch3.cpp")
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch3.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/tut_lib/ch4.cpp")
 
 # Dependancies
 option(BUILD_DOC "Build documentation" ON)
